@@ -1,3 +1,7 @@
+
+<img width="1343" height="298" alt="image" src="https://github.com/user-attachments/assets/5f331121-74f4-42b6-afb4-9d419e895a6c" />
+
+
 # Data Warehouse and Analytics Project 
 
 Welcome to the **Data Warehouse and Analytics Project** repository! 🚀
