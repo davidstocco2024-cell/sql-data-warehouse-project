@@ -1,5 +1,6 @@
 
-<img width="1343" height="298" alt="image" src="https://github.com/user-attachments/assets/5f331121-74f4-42b6-afb4-9d419e895a6c" />
+<img width="1544" height="912" alt="image" src="https://github.com/user-attachments/assets/cca2f5bd-4be0-4a82-b6c9-b7bbe06d19ff" />
+
 
 
 # Data Warehouse and Analytics Project 
