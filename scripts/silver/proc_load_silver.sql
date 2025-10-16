@@ -12,7 +12,8 @@ Actions Performed:
     3. Logs execution times for each step to monitor performance.
 
 Parameters:
-    None
+    None.
+    This stored procedure does not accept any parameters or return any values. 
 
 Usage Example:
     EXEC silver.load_silver;
