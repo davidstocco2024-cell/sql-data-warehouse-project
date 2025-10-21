@@ -8,6 +8,16 @@
                   These views transform, enrich, and standardize data from the Silver Layer
                   into analytics-ready dimensions and facts.
 
+===============================================================================
+DDL Script: Create Gold Views
+===============================================================================
+   Script Purpose:
+    This script creates views for the Gold layer in the data warehouse. 
+    The Gold layer represents the final dimension and fact tables (Star Schema)
+
+    Each view performs transformations and combines data from the Silver layer 
+    to produce a clean, enriched, and business-ready dataset.
+
    Usage:
        - Run this script after Silver Layer ETL completes.
        - Views can be consumed by BI tools (Power BI, Tableau, etc.).
