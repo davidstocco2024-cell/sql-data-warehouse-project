@@ -1,0 +1,193 @@
+# 🧭 **Data Warehouse Naming Conventions**
+
+This document defines the **naming conventions and standards** used across the data warehouse environment.  
+These rules ensure **consistency, readability, scalability, and governance** across all data layers — **Bronze, Silver, and Gold**.
+
+---
+
+## **Table of Contents**
+1. [General Principles](#general-principles)  
+2. [Schema Naming Conventions](#schema-naming-conventions)  
+3. [Table Naming Conventions](#table-naming-conventions)  
+   - [Bronze Layer](#bronze-layer)  
+   - [Silver Layer](#silver-layer)  
+   - [Gold Layer](#gold-layer)  
+4. [Column Naming Conventions](#column-naming-conventions)  
+   - [Surrogate Keys](#surrogate-keys)  
+   - [Technical Columns](#technical-columns)  
+5. [Stored Procedure Naming Conventions](#stored-procedure-naming-conventions)  
+6. [Appendix: Best Practices](#appendix-best-practices)
+
+---
+
+## **General Principles**
+
+- **Naming Format:**  
+  Use `snake_case` with lowercase letters and underscores (`_`) to separate words.  
+  ✅ Example: `sales_order_detail`
+
+- **Language:**  
+  All object names must be in **English**.
+
+- **Reserved Words:**  
+  Avoid using SQL reserved keywords as object names (e.g., `order`, `group`, `select`).
+
+- **Readability:**  
+  Keep names **concise but descriptive**. Use abbreviations only if widely recognized (`qty` = quantity).
+
+- **Consistency:**  
+  Object names should maintain **lineage** and follow the same pattern across all data layers.
+
+---
+
+## **Schema Naming Conventions**
+
+Each schema represents a **processing layer** in the data architecture:
+
+| Schema | Description | Example Objects |
+|---------|--------------|----------------|
+| `bronze` | Raw, unprocessed data ingested directly from source systems. | `bronze.crm_customers` |
+| `silver` | Cleansed and standardized data ready for analytics. | `silver.crm_customers_clean` |
+| `gold` | Curated, business-ready datasets (facts and dimensions). | `gold.fact_sales`, `gold.dim_customer` |
+
+**Rule:** Schema names must always be **lowercase** and align with their respective data layer.
+
+---
+
+## **Table Naming Conventions**
+
+### **Bronze Layer**
+
+- Tables reflect **source system structures** with minimal transformation.  
+- **Pattern:**  
+- `<source_system>`: Short name of the source (e.g., `crm`, `erp`, `sap`).  
+- `<entity>`: Original table or file name.  
+
+**Example:**  
+`crm_customer_info` → Raw CRM data for customer information.
+
+**Notes:**
+- Avoid renaming columns; preserve source fidelity.  
+- Include ingestion metadata (e.g., `dwh_load_date`, `dwh_batch_id`).
+
+---
+
+### **Silver Layer**
+
+- Contains **cleansed and standardized** data.  
+- **Pattern:**  
+- Maintain lineage from Bronze layer.  
+
+**Example:**  
+`crm_customer_info` → Cleaned and standardized CRM customer table.
+
+**Notes:**
+- Columns may be renamed for clarity and consistency.  
+- Data validation, type conversions, and deduplication occur here.  
+- Maintain one-to-one or many-to-one relation with Bronze sources.
+
+---
+
+### **Gold Layer**
+
+- Represents **business-aligned, analytics-ready** datasets.  
+- **Pattern:**  
+- `<category>`: Functional type (`dim`, `fact`, `report`).  
+- `<entity>`: Business concept (e.g., `sales`, `customer`, `product`).  
+
+**Examples:**  
+- `dim_customer` → Dimension table for customer data.  
+- `fact_sales` → Fact table containing sales transactions.  
+- `report_sales_monthly` → Pre-aggregated monthly report.
+
+#### **Category Prefix Glossary**
+
+| Prefix | Meaning | Example |
+|---------|----------|----------|
+| `dim_` | Dimension table | `dim_product`, `dim_customer` |
+| `fact_` | Fact table | `fact_sales`, `fact_inventory` |
+| `report_` | Reporting or aggregated table | `report_sales_summary` |
+
+**Notes:**
+- Gold names use **business language**, not source terms.  
+- Fact tables include foreign keys referencing related dimensions.  
+- Aim for readability in BI tools (Power BI, Tableau, Looker, etc.).
+
+---
+
+## **Column Naming Conventions**
+
+### **Surrogate Keys**
+
+- Use `_key` suffix for all **surrogate primary keys**.  
+- **Pattern:**  
+**Examples:**  
+- `customer_key`  
+- `product_key`  
+
+**Notes:**
+- Surrogate keys are system-generated integers or hashes.  
+- Natural keys should be preserved separately (e.g., `source_customer_id`).
+
+---
+
+### **Technical Columns**
+
+- Prefix all **ETL-generated metadata columns** with `dwh_`.  
+- **Pattern:**  
+**Examples:**  
+- `dwh_load_date` → Record load date.  
+- `dwh_batch_id` → ETL batch identifier.  
+- `dwh_updated_by` → Process or user that last updated the record.  
+
+**Notes:**
+- Keep technical columns consistent across all layers.  
+- Use them for lineage, auditability, and troubleshooting.
+
+---
+
+## **Stored Procedure Naming Conventions**
+
+- **Pattern:**  
+
+- `<layer>`: `bronze`, `silver`, or `gold`.  
+- `<entity>`: Optional — specific entity or dataset.  
+
+**Examples:**  
+- `load_bronze_crm_customers` → Ingests raw CRM data.  
+- `load_silver_crm_customers` → Transforms CRM data into Silver layer.  
+- `load_gold_fact_sales` → Loads curated sales fact data.  
+
+**Notes:**
+- All ETL procedures must include:  
+- Execution timestamp  
+- Error handling and logging  
+- Status reporting  
+- Procedure names should align with orchestration tools (Airflow, ADF, SSIS, etc.).
+
+---
+
+## **Appendix: Best Practices**
+
+- Maintain a **data dictionary** aligned with these standards.  
+- Use **self-descriptive** names — avoid cryptic abbreviations.  
+- Prefix temporary or staging tables consistently:  
+- `tmp_` → Temporary processing  
+- `stg_` → Staging  
+- `bkp_` → Backup  
+
+- Enforce conventions via:
+- **Code reviews**
+- **Automated CI/CD validation scripts**
+- **Data governance processes**
+
+- Revisit and update this document periodically to adapt to **new technologies and business needs**.
+
+---
+
+> **Author:** Ignacio Stocco  
+> **Role:** Data Analyst / Data Engineer  
+> **Version:** 1.0  
+> **Last Updated:** October 2025  
+
+---
