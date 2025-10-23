@@ -10,8 +10,7 @@ It demonstrates real-world **data engineering and analytics practices**, designe
 ## 🏗️ Data Architecture  
 
 This project follows the **Medallion Architecture (Bronze–Silver–Gold)** model for structured and scalable data management:  
-
-<img width="1317" height="671" alt="Data Architecture Diagram" src="https://github.com/user-attachments/assets/8639872a-d7e7-4f95-877b-1c183422a718" />  
+ 
 
 1. **Bronze Layer** – Ingests raw, unprocessed data directly from source systems (ERP & CRM) into **SQL Server** from CSV files.  
 2. **Silver Layer** – Performs **data cleansing, transformation, and normalization**, ensuring consistency and accuracy.  
